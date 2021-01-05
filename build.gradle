@@ -1,0 +1,44 @@
+plugins {
+    id 'application'
+}
+
+group 'org.saswata'
+version '1.0-SNAPSHOT'
+
+application {
+    mainClass = 'org.saswata.Main'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes "Main-Class": application.getMainClass()
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.apache.tinkerpop', name: 'gremlin-driver', version: '3.4.7'
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-core', version: '1.11.828'
+    implementation group: 'com.amazonaws', name: 'amazon-neptune-sigv4-signer', version: '2.0.2'
+    implementation group: 'com.amazonaws', name: 'amazon-neptune-gremlin-java-sigv4', version: '2.0.2'
+}
+
+task printGradleHome {
+    doLast {
+        println gradle.gradleHomeDir
+    }
+}
