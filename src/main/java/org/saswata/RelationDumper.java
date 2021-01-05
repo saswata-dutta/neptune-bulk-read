@@ -56,6 +56,12 @@ public class RelationDumper {
   }
 
   private Stream<String> queryChildAccounts(String type, String id) {
+    System.out.println(g.V(getVertexId(type, id)).id().next());
+    System.out.println(g.V(getVertexId(type, id))
+        .repeat(in(getEdgeFilter(type)).simplePath())
+        .emit(hasLabel(ACC_VERTEX_LABEL))
+        .id().toList());
+
     return g.V(getVertexId(type, id))
         .repeat(in(getEdgeFilter(type)).simplePath())
         .emit(hasLabel(ACC_VERTEX_LABEL))
